@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Recognition</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="question">Question: </div>
+    <div id="response">Answer: </div>
+
+    <script>
+        // Use AJAX to update question and response continuously
+        function updateQuestion() {
+            $.ajax({
+                url: '/update-question',
+                type: 'POST',
+                success: function(data) {
+                    $('#question').text("Question: " + data.question);
+                    $('#response').text("Answer: I'm thinking really hard hold on");
+                    updateResponse(data.question); // Update response after updating question
+                },
+                error: function() {
+                    setTimeout(updateQuestion, 1000); // Retry every 1 second if no question yet
+                }
+            });
+        }
+
+        function updateResponse(question) {
+            $.ajax({
+                url: '/update-response',
+                type: 'POST',
+                data: JSON.stringify({'question': question}),
+                contentType: 'application/json',
+                success: function(data) {
+                    $('#response').text("Answer: " + data.response);
+                    setTimeout(updateQuestion, 1000); // Update question again after updating response
+                },
+                error: function() {
+                    setTimeout(updateResponse, 1000, question); // Retry every 1 second if no response yet
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            updateQuestion();
+        });
+    </script>
+</body>
+</html>

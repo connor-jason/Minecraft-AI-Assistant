@@ -1,1 +1,1 @@
-# Minecraft-AI-Assistant
+# Minecraft AI Assistant

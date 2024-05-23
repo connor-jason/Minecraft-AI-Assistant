@@ -1,25 +1,27 @@
-import ollama
+import requests
 
 def ollama_chat(question):
-	res = ollama.chat(
-		model="llama3",
-		messages=[
+	url = "http://localhost:11434/api/chat"
+
+	payload = {
+		"model": "llama3",
+		"messages": [
 			{
 				'role': 'system',
-				'content': 'You are a Minecraft expert who is here to answer any and all questions I have about Minecraft. Please keep your answers short and to the point. Include necessary details to answer my question. No yapping.',
+				'content': 'You are a Minecraft expert who is here to answer any and all questions I have about Minecraft. Always answer questions in terms of Minecraft. If asked a personal question, answer as if you live in the game and don\'t know what the real world is. Please keep your answers short, yet informative.',
 			},
 			{
 				'role': 'user',
 				'content': question,
 			}
 		],
-		stream=False,
-	)
+		"stream": False,
+		"temperature": 0.3,
+		"low_vram": True,
+	}
 
-	return res['message']['content']
+	# Send the POST request
+	response = requests.post(url, json=payload)
+	response_json = response.json()
 
-	# for chunk in res:
-	# 	yield chunk['message']['content']
-
-	# for chunk in res:
-	# 	print(chunk['message']['content'], end='', flush=True)
+	return response_json["message"]["content"]

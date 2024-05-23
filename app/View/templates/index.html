@@ -5,10 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech Recognition</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
 </head>
 <body>
-    <div id="question">Question: </div>
-    <div id="response">Answer: </div>
+    <div class="container">
+        <div class="heading">Minecraft AI Assistant</div>
+        <div class="square">
+            <div class="title">Question</div>
+            <div id="question" class="body"></div>
+            <div class="title">Response</div>
+            <div id="response" class="body"></div>
+        </div>
+    </div>
 
     <script>
         // Use AJAX to update question and response continuously
@@ -17,8 +25,8 @@
                 url: '/update-question',
                 type: 'POST',
                 success: function(data) {
-                    $('#question').text("Question: " + data.question);
-                    $('#response').text("Answer: I'm thinking really hard hold on");
+                    $('#question').text(data.question);
+                    $('#response').text("I'm thinking really hard hold on");
                     updateResponse(data.question); // Update response after updating question
                 },
                 error: function() {
@@ -34,7 +42,7 @@
                 data: JSON.stringify({'question': question}),
                 contentType: 'application/json',
                 success: function(data) {
-                    $('#response').text("Answer: " + data.response);
+                    $('#response').text(data.response);
                     setTimeout(updateQuestion, 1000); // Update question again after updating response
                 },
                 error: function() {

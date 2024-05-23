@@ -1,15 +1,17 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Blueprint, Flask, render_template, request, jsonify
+from config import Config
 from ollamaTesting import ollama_chat
 from speechToText import get_spoken_text
 
-app = Flask(__name__)
+routes_blueprint = Blueprint("routes", __name__)
+routes_blueprint.template_folder = Config.TEMPLATE_FOLDER
 
-@app.route('/')
+@routes_blueprint.route('/')
 def index():
     return render_template('index.html')
 
 # Update the question after a question is asked
-@app.route('/update-question', methods=['POST'])
+@routes_blueprint.route('/update-question', methods=['POST'])
 def update_question():
     text = get_spoken_text()
     if "humphrey" in text:
@@ -19,7 +21,7 @@ def update_question():
         return jsonify({'question': ''})
     
 # Update the response after a question is asked and a response is returned
-@app.route('/update-response', methods=['POST'])
+@routes_blueprint.route('/update-response', methods=['POST'])
 def update_response():
     question = request.json.get('question', '')
     if question:
@@ -27,6 +29,3 @@ def update_response():
         return jsonify({'response': response})
     else:
         return jsonify({'response': ''})
-
-if __name__ == '__main__':
-    app.run(debug=True)

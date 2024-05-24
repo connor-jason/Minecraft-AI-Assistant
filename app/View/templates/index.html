@@ -26,15 +26,22 @@
                 url: '/update-question',
                 type: 'POST',
                 success: function(data) {
-                    $('#question').text(data.question);
-                    $('#response').text("I'm thinking really hard hold on");
-                    updateResponse(data.question); // Update response after updating question
+                    if (data && data.question) {
+                        $('#question').text(data.question);
+                        $('#response').text("I'm thinking really hard, hold on");
+                        updateResponse(data.question); // Update response after updating question
+                    } else {
+                        // If data is null or undefined, retry after 1 second
+                        setTimeout(updateQuestion, 1000);
+                    }
                 },
                 error: function() {
-                    setTimeout(updateQuestion, 1000); // Retry every 1 second if no question yet
+                    // Handle error, retry after 1 second
+                    setTimeout(updateQuestion, 1000);
                 }
             });
         }
+
 
         function updateResponse(question) {
             $.ajax({

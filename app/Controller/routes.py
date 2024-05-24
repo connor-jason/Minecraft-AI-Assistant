@@ -18,8 +18,6 @@ def update_question():
     if "humphrey" in text:
         argument = text.split("humphrey", 1)[1]
         return jsonify({'question': correct_text(argument)})
-    else:
-        return jsonify({'question': ''})
     
 # Update the response after a question is asked and a response is returned
 @routes_blueprint.route('/update-response', methods=['POST'])
@@ -28,5 +26,3 @@ def update_response():
     if question:
         response = ollama_chat(question)
         return jsonify({'response': response})
-    else:
-        return jsonify({'response': ''})

@@ -44,3 +44,5 @@ To run the project:
 - Run the program with <code>python3 app.py</code> while using not Python 3.12 (I tested with 3.11 and 3.9)
 
 📸 **Video of the Website:**
+
+![AI Minecraft Assistant](https://github.com/connor-jason/Minecraft-AI-Assistant/assets/99488409/736c8cae-263e-4980-aeed-1e744dad4cc4)

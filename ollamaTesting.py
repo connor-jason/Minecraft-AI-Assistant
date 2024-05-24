@@ -1,5 +1,6 @@
 import requests
 
+# send post request to my local Ollama server and return only the response
 def ollama_chat(question):
 	url = "http://localhost:11434/api/chat"
 
@@ -20,7 +21,6 @@ def ollama_chat(question):
 		"low_vram": True,
 	}
 
-	# Send the POST request
 	response = requests.post(url, json=payload)
 	response_json = response.json()
 

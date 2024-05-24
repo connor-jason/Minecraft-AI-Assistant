@@ -2,6 +2,7 @@ from flask import Blueprint, Flask, render_template, request, jsonify
 from config import Config
 from ollamaTesting import ollama_chat
 from speechToText import get_spoken_text
+from correctText import correct_text
 
 routes_blueprint = Blueprint("routes", __name__)
 routes_blueprint.template_folder = Config.TEMPLATE_FOLDER
@@ -16,7 +17,7 @@ def update_question():
     text = get_spoken_text()
     if "humphrey" in text:
         argument = text.split("humphrey", 1)[1]
-        return jsonify({'question': argument})
+        return jsonify({'question': correct_text(argument)})
     else:
         return jsonify({'question': ''})
     

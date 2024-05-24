@@ -42,6 +42,7 @@ To run the project:
 - Install and run Ollama on your local machine.
 - Install dependencies as specified in the project's requirements.txt.
 - Run the program with <code>python3 app.py</code> while using not Python 3.12 (I tested with 3.11 and 3.9)
+- Speak a question beginning with the word "Humphrey", similar to how an "Alexa" works
 
 📸 **Video of the Website:**
 

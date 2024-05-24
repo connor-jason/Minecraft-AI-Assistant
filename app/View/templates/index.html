@@ -26,7 +26,7 @@
                 url: '/update-question',
                 type: 'POST',
                 success: function(data) {
-                    if (data && data.question) {
+                    if (data.question != '' && data.question) {
                         $('#question').text(data.question);
                         $('#response').text("I'm thinking really hard, hold on");
                         updateResponse(data.question); // Update response after updating question
@@ -50,8 +50,12 @@
                 data: JSON.stringify({'question': question}),
                 contentType: 'application/json',
                 success: function(data) {
+                    if (data.response != '' && data.response) {
                     $('#response').text(data.response);
                     setTimeout(updateQuestion, 1000); // Update question again after updating response
+                    } else {
+                        setTimeout(updateResponse, 1000, question); // Retry every 1 second if no response yet
+                    }
                 },
                 error: function() {
                     setTimeout(updateResponse, 1000, question); // Retry every 1 second if no response yet
